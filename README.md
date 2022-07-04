@@ -32,7 +32,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Sync up to CodeCommit
-        uses: tsgit18/sync-up-to-codecommit-action@v1
+        uses: DamianBis/sync-up-to-codecommit-action@v1.0.8
         with:
           repository_name: test_repo
           aws_region: us-east-1

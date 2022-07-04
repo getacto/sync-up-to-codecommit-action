@@ -2,9 +2,18 @@
 
 set -ue
 
-RepositoryName="${INPUT_REPOSITORY_NAME}"
-AwsRegion="${INPUT_AWS_REGION}"
-CodeCommitUrl="https://git-codecommit.${AwsRegion}.amazonaws.com/v1/repos/${RepositoryName}"
+aws_region="${INPUT_AWS_REGION}"
+[ -z $aws_region ] && aws_region="us-east-1"
+repository_name="${INPUT_REPOSITORY_NAME}"
+
+repository=$(aws codecommit get-repository --repository-name ${repository_name} --region ${aws_region})
+
+if [ -z $repository ]
+then
+  repository=$(aws codecommit create-repository --repository-name ${repository_name} --region ${aws_region})
+fi
+
+CodeCommitUrl=$(echo $repository | jq .repositoryMetadata.cloneUrlHttp)
 
 git config --global --add safe.directory /github/workspace
 git config --global credential.'https://git-codecommit.*.amazonaws.com'.helper '!aws codecommit credential-helper $@'
