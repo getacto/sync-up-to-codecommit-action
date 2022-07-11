@@ -35,13 +35,11 @@ jobs:
         uses: Equiem/sync-up-to-codecommit-action@v1.0.10
         with:
           repository_name: test_repo
-          aws_region: us-east-1
 ```
 
 ## Inputs
 
 - `repository_name` **Required** CodeCommit repository name.
-- `aws_region` **Required** Region of the CodeCommit repository.
 
 ## License
 
