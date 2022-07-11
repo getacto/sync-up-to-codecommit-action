@@ -2,9 +2,6 @@
 
 set -ue
 
-aws_region="${INPUT_AWS_REGION}"
-[ -z $aws_region ] && aws_region="us-east-1"
-export AWS_REGION="$aws_region"
 repository_name="${INPUT_REPOSITORY_NAME}"
 
 repository=$(aws codecommit get-repository --repository-name ${repository_name} || aws codecommit create-repository --repository-name ${repository_name})
