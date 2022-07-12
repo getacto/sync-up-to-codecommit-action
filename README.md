@@ -10,10 +10,8 @@ name: sync up to codecommit
 
 on:
   push:
-    tags-ignore:
-      - '*'
     branches:
-      - '*'
+      - main
 
 jobs:
   sync:
