@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -ue
 
@@ -8,8 +8,17 @@ repository=$(aws codecommit get-repository --repository-name ${repository_name} 
 
 CodeCommitUrl=$(echo $repository | jq -r .repositoryMetadata.cloneUrlHttp)
 
+remote="sync"
+
 git config --global --add safe.directory /github/workspace
 git config --global credential.'https://git-codecommit.*.amazonaws.com'.helper '!aws codecommit credential-helper $@'
 git config --global credential.UseHttpPath true
-git remote add sync ${CodeCommitUrl}
-git push sync --mirror
+git remote add ${remote} ${CodeCommitUrl}
+
+if [[ $(git lfs ls-files) ]]; then
+  git config --global --add safe.directory /github/workspace/.git
+  git lfs migrate export --include="*" --everything
+  git lfs uninstall
+fi
+
+git push --set-upstream ${remote} $(git rev-parse --abbrev-ref HEAD)
