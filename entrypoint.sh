@@ -21,4 +21,4 @@ if [[ $(git lfs ls-files) ]]; then
   git lfs uninstall
 fi
 
-git push --set-upstream ${remote} $(git rev-parse --abbrev-ref HEAD)
+git push --force --set-upstream ${remote} $(git rev-parse --abbrev-ref HEAD)
