@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM alpine:3.19
 
 RUN apk --update --no-cache add git git-lfs aws-cli jq bash
 
